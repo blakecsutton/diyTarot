@@ -1,0 +1,57 @@
+{% extends "diyTarot/list.html" %}
+
+{% block title %}Deck Me? O you shouldn't have{% endblock %}
+
+{% load query_string %}
+{% load thumbnail %}
+
+{% block sidebar_content %}
+<h1>Explore the deck</h1>
+{% include "diyTarot/deck_filter_menu.html" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  {{ block.super }} » <a href="/diytarot/decks">Decks</a> » {{ deck.name }} Deck  
+{% endblock %}
+
+{% block list_title %}
+<h1>{{ deck.name }} deck detail</h1>
+<p>{{ deck.description }} {{ deck.author }}</p>
+<h2>Suits</h2>
+{{ deck.get_suit_names|join:', ' }}
+{% endblock %}
+
+{% block list %}
+{% if result_list %}
+
+<table class="card_list">
+  
+    {% for card in result_list.object_list %}
+    
+     <tr>
+       <td class="header" colspan="2">
+         <h2>{{ card.tarot_index }})
+           <a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+             {{ card.majorarcana.get_name }}{{ card.minorarcana.get_name }}</a>:
+           {{ card.caption }}
+         </h2>
+       </td>
+     </tr>
+     
+     <tr>
+      <td class="card_image"> 
+	     <a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+	    	  <img src="{{ card.image|thumbnail:'85x150' }}" width="85" height="150"
+	    		      alt="{{ card.get_name}}, {{ deck.name }} Deck." /></a>     	      
+	    </td>
+	    
+	    <td class="card_text">
+	      <h3>Keywords</h3>{{ card.get_keywords|join:', ' }}
+	      <h3>Predictions</h3>{{ card.get_predictions|join:' ' }}
+    	</td>
+	   </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

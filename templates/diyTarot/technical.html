@@ -1,0 +1,36 @@
+{% extends "diyTarot/static.html" %}
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}diyTarot/css/about.css">
+{% endblock %}
+
+{% block title %}It's all about me!{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }} » <a href="/diytarot/about">About</a> » Technical Details
+{% endblock %}
+
+{% block static_content %}
+<h1>Technical Details</h1>
+
+ <p>diyTarot is a <a href="https://www.djangoproject.com/">Django application</a>, so it is 
+   written in Python with a database backend (in my case, MySQL). The front end uses HTML
+   interspersed with Django's template language, with CSS to handle layout and styling and JavaScript
+   in some places to do asynchronous updating and certain effects.
+ </p>
+ <p>
+   I opted to use Django instead of coding everything myself or using another package because:
+   <ol>
+    <li>It's Python, which is a joy to code in.</li>
+    <li>It has an amazing automatic admin which makes it easy to start adding content
+      immediately.</li>
+    <li><a href="https://docs.djangoproject.com/en/1.3/">Great documentation.</a></li>
+   </ol>
+ </p>
+ <p>
+   Once I finish adding the core features and do some basic portability and accessibility testing,
+   I plan to make diyTarot available as an open source download, so that anyone else using Django
+   can add customizable tarot card readings to their site as an application. The more
+   tarot websites out there the better!
+ </p>
+{% endblock %}

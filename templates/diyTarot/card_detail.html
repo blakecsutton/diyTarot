@@ -1,0 +1,191 @@
+{% extends "diyTarot/base.html" %}
+
+{% block title %}O, you are such a card!{% endblock %}
+{% block script %}
+<script type="text/javascript">
+// Make the window run the setup function as soon as it loads.
+window.onload = setup;
+
+function setup() {
+  
+  //Attach keydown event listener to catch all keys pushed down on the document.
+  document.onkeydown = function(e) {
+    
+    LEFT_ARROW = 37
+    RIGHT_ARROW = 39
+    
+    var nextCardLink = "/diytarot/cards/{{ next_card_index }}/{{ card.deck.id }}";
+    var previousCardLink = "/diytarot/cards/{{ previous_card_index }}/{{ card.deck.id }}";
+
+        
+    switch(e.keyCode) {
+      
+     case LEFT_ARROW:
+
+      location.href = previousCardLink;
+      return false;
+      
+     case RIGHT_ARROW:
+     
+      location.href = nextCardLink;
+      return false;
+    }
+  }
+} 
+</script>
+
+{% endblock %}
+{% block sidebar_content %}
+<h1>Related cards</h1>
+<h2>In other decks</h2>
+<ul>
+  <li>
+  <a href="/diytarot/cards/{{ card.tarot_index }}/">All versions</a>
+  </li>
+  {% for related_card in related_cards %}
+    <li>
+    {% if related_card.deck = card.deck.id %}
+      <span class="active_filter">{{ related_card.deck__name }}
+    {% else %}
+      <a href="/diytarot/cards/{{ card.tarot_index }}/{{ related_card.deck }}">{{ related_card.deck__name }}</a>
+    {% endif %}
+    </li>
+  {% empty %}
+    <li>This card doesn't appear in any other decks.</li>
+  {% endfor %}
+</ul>
+
+<h2>In the same deck</h2>
+<ul>
+{% if card.tarot_index < 22 %}
+    <li>Major Arcana</li>
+    <ul>
+    {% for item in majors_list %}
+      <li>
+        {% if item.tarot_index == card.tarot_index %}
+          <span class="active_filter">{{ item.get_name }}
+        {% else %}
+          <a href="/diytarot/cards/{{ item.tarot_index }}/{{ card.deck.id }}/">
+          {{ item.get_name }}</a>
+        {% endif %}
+      </li> 
+    {% endfor %}
+    </ul>
+    {% if first_minor != '' %}
+      <li>
+      <a href="/diytarot/cards/{{ first_minor }}/{{ card.deck.id}}/">Minor Arcana</a>
+      </li>
+    {% else %}
+      <li>
+      Minor Arcana
+      </li>
+      <ul>
+        <li>No cards.</li>
+      </ul>
+    {% endif %}
+{% else %}
+    {% if first_major != '' %}
+      <li>
+      <a href="/diytarot/cards/{{ first_major }}/{{ card.deck.id}}/">Major Arcana</a>
+      </li>
+    {% else %}
+      <li>
+      Major Arcana
+      </li>
+      <ul>
+        <li>No cards.</li>
+      </ul>
+    {% endif %}
+  <li>Minor Arcana</li>
+  <ul>
+    {% regroup minors_list by suit as minors %} 
+    
+    {% for suit_group in minors %}
+      {% if suit_group.grouper == card.minorarcana.suit %}
+        <li>{{ suit_group.grouper }}</li>
+        <ul>
+          {% for item in suit_group.list %}
+          <li>
+            {% if item.tarot_index == card.tarot_index %}
+              <span class="active_filter">{{ item.get_name }}</span>
+            {% else %}
+              <a href="/diytarot/cards/{{ item.tarot_index }}/{{ card.deck.id }}/">
+              {{ item.get_name }}</a>
+            {% endif %}
+          </li> 
+          {% endfor %}
+        </ul>
+      {% else %}
+        <li>
+            <a href="/diytarot/cards/{{ suit_group.list.0.tarot_index }}/{{ card.deck.id}}/">
+              {{ suit_group.grouper }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  
+    {% for suit in empty_suit_list %}
+       <li>{{ suit.name }}</li>
+        <ul>
+          <li>No cards.</li>
+        </ul> 
+    {% endfor %} 
+  </ul>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+ {{ block.super }} » <a href="/diytarot/decks/">Decks</a> »  
+ <a href="/diytarot/decks/{{card.deck.id}}">{{ card.deck.name }} Deck</a> »
+ 
+ {% if card.tarot_index < 22 %}
+    <a href="/diytarot/decks/{{ card.deck.id}}/?cards=majors">Major Arcana</a> »
+ {% else %}
+    <a href="/diytarot/decks/{{ card.deck.id}}/?cards=minors">Minor Arcana</a> » 
+ {% endif %}
+  
+ {{ card.minorarcana.get_name }}{{ card.majorarcana.get_name }}  
+{% endblock %}
+
+{% block content %}
+
+{% if card %}
+{% load thumbnail %}
+{% load typogrify %}
+{% filter typogrify %}
+	<h1>
+	  <a href="/diytarot/cards/{{ previous_card_index }}/{{ card.deck.id }}">«</a>
+	  {{ card.minorarcana.get_name }}{{ card.majorarcana.get_name }}: {{ card.caption }}
+	  <a href="/diytarot/cards/{{ next_card_index }}/{{ card.deck.id }}">»</a>
+  </h1>
+{% endfilter %}
+  <div class="card_detail_image">
+     <img src="{{ card.image|thumbnail:'199x350' }}" width="199" height="350"
+     alt="{{ card.minorarcana.get_name }}{{ card.majorarcana.get_name }}" />
+  </div>
+  
+	<div class="card_detail_text">
+	   <h3>Deck: <a href="/diytarot/decks/{{ card.deck.id }}/">{{ card.deck.name }}</a></h3>
+	   <h3>Predictions</h3>
+      
+    <p>{{ meaning.predictions }}</p>
+    <h5>Reversed:</h5>
+    <p> {{ meaning.reversed_predictions }}</p>
+      
+    <h3>Keywords</h3>
+  
+    <p>{{ meaning.keywords }}</p>
+    <h5>Reversed:</h5>
+    <p>{{ meaning.reversed_keywords }}</p>
+      
+		<h3>Description</h3>
+    <p>{{ card.description|safe }}</p>
+	</div>
+
+{% else %}
+	<h2>Oops, looks like this card doesn't exist in this deck! :(</h2>	
+{% endif %}
+
+{% endblock %}
+
+

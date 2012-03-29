@@ -1,0 +1,95 @@
+{% extends "diyTarot/list.html" %}
+
+{% block title %}Life is card sometimes{% endblock %}
+{% load query_string %}
+{% load thumbnail %}
+
+{% block sidebar_content %}
+<h1>Search the cards</h1>
+<form id="card-search" method="get" action="/diytarot/cards/">
+  <input type="search" name="search" id="search" value="{{ active_options.search }}" />
+  <input type="submit" id="submit" value=">"/>
+</form>
+<h1>Browse the cards</h1>
+<h2>Filter by deck</h2>
+<ul>
+  <li>Decks</li>
+  <ul>
+  {% if 'deck' not in active_options %}
+    <li>
+      <span class="active_filter">All decks</span>
+    </li>
+    {% for deck in deck_list %}
+    <li>
+       <a href="/diytarot/cards/?{{ active_options|remove_and_reencode:'deck,page' }}&deck={{ deck.id }}">
+          {{ deck.name }}</a>
+    </li>
+    {% endfor %}
+  {% else %}
+     <li>
+        <a href="/diytarot/cards/?{{ active_options|remove_and_reencode:'deck,page' }}">All</a>
+    </li>
+    {% for deck in deck_list %}
+      <li>
+        {% if active_options.deck == deck.id %}
+          <span class="active_filter">{{ deck.name }}</span>
+        {% else %}
+        <a href="/diytarot/cards/?{{ active_options|remove_and_reencode:'deck,page' }}&deck={{ deck.id }}">
+          {{ deck.name }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+  </ul>
+</ul>
+{% include "diyTarot/deck_filter_menu.html" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  {{ block.super }} » Explore cards
+{% endblock %}
+
+{% block list_title %}
+<h1>List ALL the cards!</h1>
+{% if active_options.search %}
+<p>Your search: "<span class="search-highlight">{{ active_options.search }}</span>"</p>
+<script type="text/javascript" src="{{ STATIC_URL }}diyTarot/js/all.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block list %}
+
+{% if result_list.object_list.count > 0 %}
+<table class="card_list">
+  
+    {% for card in result_list.object_list %}
+    
+     <tr>
+       <td class="header" colspan="2">
+         <h2>
+           <a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+             {{ card.majorarcana.get_name }}{{ card.minorarcana.get_name }}</a>: {{ card.caption }}
+           (<a href="/diytarot/decks/{{ card.deck.id }}">{{ card.deck.name }} Deck</a>)
+         </h2>
+       </td>
+     </tr>
+     
+     <tr>
+      <td class="card_image"> 
+	     <a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+	    	  <img src="{{ card.image|thumbnail:'85x150' }}" width="85" height="150"
+	    		      alt="{{ MajorArcana.card.get_name }} {{ MinorArcana.card.get_name }}, {{ deck.name }} Deck." /></a>     	      
+	    </td>	    
+	    <td class="card_text">
+        <h3>Keywords</h3>{{ card.get_keywords|join:', ' }}
+        <h3>Description</h3>{{ card.description|safe }}
+    	</td>
+	   </tr>
+
+    {% endfor %}
+</table>
+{% else %}
+  <h3>No cards found that match the active filters ... maybe the deck isn't complete yet?</h3>
+{% endif %}
+
+{% endblock %}

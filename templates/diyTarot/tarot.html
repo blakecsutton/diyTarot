@@ -1,0 +1,120 @@
+{% extends "diyTarot/static.html" %}
+
+{% block title %}What is tarot? Baby don't hurt me{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }} » What's Tarot?
+{% endblock %}
+
+{% block static_content %}
+
+  <h1>What's tarot?</h1>
+  
+  <p>Have you ever had something that didn't work out&mdash;it just <em>wasn't
+   in the cards?</em> </p>
+  
+  <p class="image">
+  <img src="{{ STATIC_URL }}diyTarot/images/heartbreak.jpg" alt="Three of Swords: heartbreak"
+   width="75" height="132"
+   title="Heartbreak at its worst"/>
+  Love stinks... <br>
+  the <a href="/diytarot/cards/52/1/">3 of Swords</a> knows!
+  </p>
+  
+  <p>
+  <a href="http://en.wikipedia.org/wiki/Tarot">Tarot cards</a> (not to be confused with 
+  <a href="http://en.wikipedia.org/wiki/Taro">Taro root</a>) are a set of 
+  78 playing cards which are associated with fortune-telling and the occult. Tarot also appeals to fans of
+  art and symbolism: in most decks every single card is individually illustrated! 
+  </p>
+  
+  <p>
+    The idea is that each tarot card represents a concept or event, and the image shown is chosen accordingly.
+    For example, the Three of Swords card (see right) is supposed to represent 
+    heartbreak, and <a href="/diytarot/cards/1/">the Rider-Waite deck</a>
+  depicts this as a heart pierced by three swords. To add another layer of meaning, most people also interpet
+  a card differently if it is upside-down, or <dfn>reversed</dfn>.
+  </p>
+  
+  <div class="divider"></div>
+  
+  <h2>Arcane Arcana</h2>
+  
+  <p>The 78 cards are organized into two sets known
+  as <dfn>Arcana</dfn>, which is a cool-sounding word meaning secrets or mysteries. </p>
+  
+  <p>The first Arcana is called the <dfn>Major Arcana</dfn>, which is numbered from
+    0 to 21 and consists of cards with mysterious, portentuous names like 
+    The Hanged Man and The High Priestess. In card games these would serve as a trump suit. In 
+    interpretations, many believe the major arcana cards represent archetypal personality traits and
+    key, influential events.
+  </p>
+  
+  <p class="image">
+  <img src="{{ STATIC_URL }}diyTarot/images/knight.png" alt="A knight of olde"
+  width="120" height="125"
+  title="Life was grayer back then"/>
+  I dub thee Knight <br>
+  Of Looking Down Sadly
+  </p>
+ 
+  <p>The second Arcana is the <dfn>Minor Arcana</dfn>, and it is divided into four suits just like normal 
+      playing cards. The suits have many names, and many decks reinvent them, but they usually involve
+      the four elements: fire (Wands, Rods), water (Cups, Chalices), 
+      air (Swords, Blades),  and earth (Pentacles, Coins). In addition to different names, the Minor
+      Arcana suits also have four <dfn>court cards</dfn> each: a Page, Knight, Queen, and King. Traditional
+      intepretation holds that these cards represent individual people, and the rest of the minors
+      represent everyday events and emotions.
+  </p>
+  
+  <div class="divider"></div>
+  
+  <h2>Terminology</h2>
+  <p>Like everything else, tarot has its jargon. I learned the lingo from the great 
+    <a href="http://www.tarotforum.net/">forum at Aeclectic Tarot</a>
+ and lots of tarot books from the libary. Now I can pass on the knowledge to you!
+ </p>
+ 
+<h3>the Querent</h3>
+<p>This is probably the first official tarot term I learned. It refers of course to the person 
+  requesting the reading (most likely you and maybe your friends).
+</p>
+
+<h3>the Question</h3>
+<p>This isn't really a tarot-specific term, but I put in here anyway because in tarot readings it's
+  important to put a lot of thought into the questions you ask. The most useful ones are neither too broad
+  ("Where will I be 10 years from now?") nor too specific ("When will I get promoted?"). Seem difficult?
+  Don't worry, it gets easier with practice! Also, a lot of modern <dfn>spreads</dfn> (see below) actually
+  define the question for you based on the card positions.
+</p>
+<p class="image">
+   <img src="{{ STATIC_URL }}diyTarot/images/42.jpg" alt="42"
+   width="100" height="99"
+   title="The answer to a poorly phrased Ultimate Question">
+  Ask a silly question, <br>
+  get a silly answer.
+</p>
+
+<h3>Spread</h3>
+ <p>A way of spreading out the cards, with titles and meanings associated with each one. 
+   The Celtic Cross is a well-known one, but people are making up cool new ones all the time!
+   Check out <a href="/diytarot/spreads/">the spreads section</a> to do a reading with the ones
+   I've found.
+ </p>
+
+<h3>Reading</h3>
+<p>This refers to the full interpretation of a particular set of cards (probably based on a spread, 
+  but maybe not) in the context of the Question. It also usually takes into account the deck used,
+  since different decks have different moods and even ways of interpreting individual cards.
+  For an example of a totally different vibe in deck, see <a href="/diytarot/decks/3">the Dessert Deck</a>.
+</p>
+ 
+<h3>Throw</h3>
+ <p>This term refers to the act of drawing the cards one by one and laying them down according to the spread.
+   It can also be used as a noun to refer to a whole set of cards ("what a bad throw...
+   I'm going to redo this one!"). The difference between a throw and a reading is that a 
+   reading involves intepretation according to the context.
+ </p>
+
+
+{% endblock %}

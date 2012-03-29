@@ -1,0 +1,36 @@
+/* This is a LESS stylesheet with styling for static content pages consisting of two columns,
+ * one for text and one for images. 
+ */
+
+div.static_two_column{
+  
+  
+  
+  /* Headings and normal text floats left to allow the image paragraphs to float right
+   * and appear as a separate column.
+   */  
+  p, h1, h2, h3, ul, li {
+   float: left;
+   width: 80%;
+  }
+
+  /* Paragraphs that are of class image appear as a separate column, aligned with the 
+   * the element that appears above it in the markup. This makes it simple to align
+   * images with captions to specific content while maintaining a separate, consistent column.
+   */
+  p.image {
+    float: right;
+    width: 20%;
+    
+    text-indent: 0;
+    text-align: center;
+    font-size: 75%;
+    line-height: 1.5em;
+  }
+  
+  p.image img {
+    margin: auto;
+    display: block;
+  }
+  
+}

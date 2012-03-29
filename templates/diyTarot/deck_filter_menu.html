@@ -1,0 +1,108 @@
+{% load query_string %}
+
+<h2>Filter within deck</h2>
+<ul>
+  <li>
+    {% if 'cards' not in active_options %}
+      <span class="active_filter">All cards in deck</span>
+    {% else %}
+      <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,suit,order_by,page'}}">
+        All cards in deck</a>
+    {% endif %}
+  </li>  
+  <li>
+    {% if active_options.cards == "majors" %}
+      <span class="active_filter">Major Arcana</span>
+    {% else %}
+    <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,suit,order_by,page' }}&cards=majors">
+      Major Arcana</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.cards == "minors" %}
+      <span class="active_filter">Minor Arcana</span>
+    {% else %}  
+      <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,page' }}&cards=minors">Minor Arcana</a>
+    {% endif %}
+  </li> 
+  <ul>
+    <li>Rank</li>
+     <ul>
+       <li>
+        {% if 'ranks' not in active_options %}
+        <span class="active_filter">All</span>
+        {% else %}
+        <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,page' }}&cards=minors">
+          All</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if active_options.ranks == "acefive" %}
+         <span class="active_filter">Ace to Five</span>
+        {% else %}
+        <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,page' }}&cards=minors&ranks=acefive">
+          Ace to Five</a>
+        {% endif %}
+      </li>
+       <li>
+         {% if active_options.ranks == "fiveten" %}
+          <span class="active_filter">Five to Ten</span>
+         {% else %}
+        <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,page' }}&cards=minors&ranks=fiveten">
+            Five to Ten</a>
+         {% endif %}
+       </li>
+       <li>
+         {% if active_options.ranks == "court" %}
+           <span class="active_filter">Court</span>
+         {% else %}
+        <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,ranks,page' }}&cards=minors&ranks=court">
+            Court</a>
+         {% endif %}   
+       </li>
+    </ul>
+    <li>Suit</li>
+      <ul>
+        <li>
+          {% if 'suit' not in active_options %}
+          <span class="active_filter">All</span>
+          {% else %}
+          <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,suit,page' }}&cards=minors">
+            All</a>
+          {% endif %}
+        </li>
+        {% for suit in suit_list %}
+        <li>
+          {% if active_options.suit == suit.suit %}
+          <span class="active_filter">{{ suit.name }}</span>
+          {% else %}
+          <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'cards,suit,page' }}&cards=minors&suit={{ suit.suit }}">
+            {{ suit.name }}</a>
+          {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+  </ul>
+</ul>
+
+{% if active_options.cards == 'minors' %}
+<h2>Sort by</h2>
+<ul>
+  <li>
+  {% if active_options.order_by == 'suit' %}
+    <span class="active_filter">Suit</span>
+  {% else %}
+    <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'order_by,page' }}&order_by=suit">
+    Suit</a>
+  {% endif %}
+  </li>
+  <li>
+  {% if active_options.order_by == 'rank' %}
+    <span class="active_filter">Rank</span>
+  {% else %}
+    <a href="{{ base_url }}?{{ active_options|remove_and_reencode:'order_by,page' }}&order_by=rank">
+    Rank</a>
+  {% endif %}
+  </li>
+</ul>
+{% endif %}

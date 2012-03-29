@@ -1,0 +1,184 @@
+{% extends "diyTarot/base.html" %}
+
+{% block title %}Reading is GOOD FOR YOU!{% endblock %}
+
+{% load thumbnail %}
+{% load random_line %}
+{% load typogrify %}
+{% load ordinal %}
+
+{% block sidebar_content %}
+
+<h2>
+{% if deck_options.session_deck_id|slugify == deck_options.display_deck_id %}
+Currently showing the <a href="/diytarot/decks/{{ deck_options.display_deck_id }}/">
+  {{ deck_options.display_deck_name }} deck</a>, which is your preferred deck.
+{% else %}
+Currently showing the <a href="/diytarot/decks/{{ deck_options.display_deck_id }}/">
+{{ deck_options.display_deck_name }} deck</a>. Your default is the 
+<a href="/diytarot/decks/{{ deck_options.session_deck_id }}">{{ deck_options.session_deck_name }} deck</a>.
+<a href="/diytarot/reading/save_settings/{{ spread.id }}/?deck={{ deck_options.display_deck_id }}">
+  Make {{ deck_options.display_deck_name }} deck the default?</a>
+{% endif %}
+</h2>
+<div class="divider"></div>
+<h1>Reading Options</h1>
+<ul>
+  <li>Deck</li>
+  <ul>
+  {% for deck in deck_list %}
+    <li>
+    {% if deck_options.display_deck_id == deck.id|slugify %}
+      <span class="active_filter">{{ deck.name }}</span>
+    {% else %}
+      <a href="/diytarot/reading/{{ spread.id}}/{{ deck.id }}/">
+        {{ deck.name }}</a>
+    {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+  <li>Spread</li>
+  <ul>
+    {% for item in spread_list %}
+      <li>
+      {% if spread.id == item.id %}
+        <span class="active_filter">{{ item.title }}</span>
+      {% else %}
+        <a href="/diytarot/reading/{{ item.id }}/{{ deck_options.display_deck_id }}/">
+          {{ item.title }}</a>
+      {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</ul>
+{% endblock %}
+
+{% block breadcrumbs %}
+
+{{ block.super }} » <a href="/diytarot/spreads">Spreads</a> 
+» <a href="/diytarot/reading/{{ spread.id }}/{{ deck_options.display_deck_id }}">{{ spread.title }} reading</a>
+» {{ deck_options.display_deck_name }} deck
+
+{% endblock %}
+
+{% block content %}
+
+{% if error %}
+
+	<h1>Looks like there was a problem with your reading!</h1>
+	<h3>Specifically:</h3>
+	<p class="error">{{ error }}</p>
+	
+{% else %}
+{% filter widont %}
+<h1>The cards have been laid...</h1>      
+<p>Mouse over the cards to see what each position in the spread represents, then scroll down to see what your cards predict, or click
+  the position number to jump there directly. You can also change which deck and spread you're viewing via the sidebar on the left.
+  Confused? Check out <a href="/diytarot/reading/howitworks/">How Readings Work</a>.</p>  
+<h1>But what do they portend for <em>you, </em>{{ 'diytarot/files/endearments.txt'|random_line }}?</h1>
+<p>
+If we would presume to read the future, child, we must consider each of the cards in the proper order, one at a time below. 
+Patience is a virtue, chicky! I must say, at first glance... {{ 'diytarot/files/sayings.txt'|random_line }}
+</p>
+<a name="cards"></a>  
+<h2>Your {{ spread.title }} spread:</h2>
+{% endfilter %}        
+<div id="reading_layout" style="height: {{ layout.height }}px; 
+                                width: {{ layout.width }}px;">
+<!-- Initial pass through card list to manage the image layout -->
+ {% for position, thrown_card, coordinates in card_list %} 
+
+	<div class="thrown_card" style="top: {{ coordinates.top }}px;
+	                          left: {{ coordinates.left }}px;"
+	                         title="Position {{ position.index }}: {{ position.title }}. {{ position.description }}">
+	                          
+	  <a href="#{{ position.index }}">	                         
+		{% if thrown_card.reversed %}
+			<img src="{{ thrown_card.card.image|reversed_thumbnail:layout.thumbnail_string }}" 
+			     width="{{ layout.card_width }}"
+           height="{{ layout.card_height }}"
+			     alt="Card {{ position.index}}: {{ thrown_card.card.minorarcana.get_name }}{{ thrown_card.card.majorarcana.get_name }}" />
+		{% else %}
+			<img src="{{ thrown_card.card.image|thumbnail:layout.thumbnail_string }}" 
+			     width="{{ layout.card_width }}"
+			     height="{{ layout.card_height }}"
+			     alt="Card {{ position.index}}: {{ thrown_card.card.minorarcana.get_name }}{{ thrown_card.card.majorarcana.get_name }} (reversed)" />
+		{% endif %}
+
+		<span class="card_caption">{{ position.index }}</span>
+		</a>
+  </div>
+{% endfor %}
+</div>
+<table class="reading_detail" summary="Table of card details">
+  {% for position, thrown_card in card_list %}
+    <tr>
+    	<td class="header" colspan="2">
+    		{# We'll try both classes and the one that doesn't work will just silently fail. #}
+    		{# If we don't go into the subclasses to do it we won't get the subclass-specific #}
+    		{# info in the name (e.g., "9 of Wands" as opposed to just "9") #}
+    		
+    		<a name="{{ position.index }}"></a>
+    		{% filter widont %}
+    		<h2>{{ position.index|ordinal }} card: {{ position.title }}</h2>
+    		<h4>{{ position.description }}</h4>
+    		{% endfilter %}
+		 </td>
+	 </tr>
+	 <tr>
+	    <td class="card_image">
+	    		<a href="#cards" title="Back to card layout">
+				{% if thrown_card.reversed %}
+					<img src="{{ thrown_card.card.image|reversed_thumbnail:'62x110' }}" width="62" height="110" />
+				{% else %}
+					<img src="{{ thrown_card.card.image|thumbnail:'62x110' }}" width="62" height="110"/>
+				{% endif %}
+				</a>
+	    </td>
+	    <td class="card_text"> 
+	          <h3>You got: 
+	            <em><a href="/diytarot/cards/{{ thrown_card.card.tarot_index }}/{{ thrown_card.card.deck.id }}"
+	                 title="Click to see all details for this card">
+	              {{ thrown_card.card.minorarcana.get_name }}{{ thrown_card.card.majorarcana.get_name }}
+            {% if thrown_card.reversed %}(reversed){% endif %}
+                </a></em></h3>
+            
+	    		<h3>What it predicts</h3>
+	    		{% filter widont %}
+	    		<p>
+	    		{% if thrown_card.reversed %}
+	    			{{ thrown_card.card.get_reversed_predictions|join:' ' }} 
+	    		{% else %}
+	    			{{ thrown_card.card.get_predictions|join:' ' }}
+	    		{% endif %}
+	    		</p>
+	    		{% endfilter %}
+	    		
+	    		<h3>Other key concepts</h3>
+	    		{% if thrown_card.reversed %}
+	    			{{ thrown_card.card.get_reversed_keywords|join:', ' }} 
+	    		{% else %}
+	    			{{ thrown_card.card.get_keywords|join:', ' }}
+	    		{% endif %}
+	   
+	    	</td>
+	</tr>
+{% endfor %}
+</table>
+<h1>Will that be all?</h1>
+<p>Well that wraps up your reading, my pet! I hope you are entirely satisfied with the fortune you've received today.
+However, if you simply cannot bear what the tarot has revealed to you, do not despair. For the truth
+is you have one more recourse&mdash;to pretend this reading never happened and 
+<a href="/diytarot/reading/{{ spread.id}}/{{ deck_options.display_deck_id }}/">refresh the page</a>
+for a different set of cards!
+</p>
+
+<h3>Looking for a permanent link to this reading? It's yours!</h3>
+<p>
+  <a href="/diytarot/reading/{{ spread.id}}/{{ deck_options.display_deck_id }}/?cards={{ save_string }}">
+    http://{{ request.META.HTTP_HOST }}/diytarot/reading/{{ spread.id}}/{{ deck_options.display_deck_id }}/?cards={{ save_string }}</a>
+</p>
+
+{% endif %}
+
+{% endblock %}

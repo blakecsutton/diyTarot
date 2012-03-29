@@ -1,0 +1,148 @@
+{% extends "diyTarot/list.html" %}
+
+{% block title %}Oh my tarot cards and garters!{% endblock %}
+
+{% block breadcrumbs %}
+  {{ block.super }} » <a href="/diytarot/cards/">All Cards </a> »
+  
+ {% if result_list.object_list.0.tarot_index < 22 %}
+    <a href="/diytarot/cards/?cards=majors">Major Arcana</a> »
+ {% else %}
+    <a href="/diytarot/cards/?cards=minors">Minor Arcana</a> » 
+ {% endif %}
+  
+  {{ result_list.object_list.0.minorarcana.get_name }}{{ result_list.object_list.0.majorarcana.get_name }}  
+{% endblock %}
+
+{% block sidebar_content %}
+
+<h1>Related cards</h2>
+<ul>
+{% if result_list.object_list.0.tarot_index < 22 %}
+    <li>Major Arcana</li>
+    <ul>
+    {% for item in majors_list %}
+      <li>
+        {% if item.tarot_index == result_list.object_list.0.tarot_index %}
+          <span class="active_filter">{{ item.get_name }}
+        {% else %}
+          <a href="/diytarot/cards/{{ item.tarot_index }}/">
+          {{ item.get_name }}</a>
+        {% endif %}
+      </li> 
+    {% endfor %}
+    </ul>
+    {% if first_minor != '' %}
+      <li>
+      <a href="/diytarot/cards/{{ first_minor }}/">Minor Arcana</a>
+      </li>
+    {% else %}
+      <li>
+      Minor Arcana
+      </li>
+      <ul>
+        <li>No cards.</li>
+      </ul>
+    {% endif %}
+{% else %}
+    {% if first_major != '' %}
+      <li>
+      <a href="/diytarot/cards/{{ first_major }}/">Major Arcana</a>
+      </li>
+    {% else %}
+      <li>
+      Major Arcana
+      </li>
+      <ul>
+        <li>No cards.</li>
+      </ul>
+    {% endif %}
+  <li>Minor Arcana</li>
+  <ul>
+    {% regroup minors_list by suit as minors %} 
+    
+    {% for suit_group in minors %}
+      {% if suit_group.grouper == result_list.object_list.0.minorarcana.suit %}
+        <li>{{ suit_group.grouper }}</li>
+        <ul>
+          {% for item in suit_group.list %}
+          <li>
+            {% if item.tarot_index == result_list.object_list.0.tarot_index %}
+              <span class="active_filter">{{ item.get_name }}</span>
+            {% else %}
+              <a href="/diytarot/cards/{{ item.tarot_index }}">
+              {{ item.get_name }}</a>
+            {% endif %}
+          </li> 
+          {% endfor %}
+        </ul>
+      {% else %}
+        <li>
+            <a href="/diytarot/cards/{{ suit_group.list.0.tarot_index }}">
+              {{ suit_group.grouper }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  
+    {% for suit in empty_suit_list %}
+       <li>{{ suit.name }}</li>
+        <ul>
+          <li>No cards.</li>
+        </ul> 
+    {% endfor %} 
+  </ul>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block list_title %}
+
+  <h1><a href="/diytarot/cards/{{ previous_card_index }}">«</a>
+    {{ result_list.object_list.0.majorarcana.get_name }}{{ result_list.object_list.0.minorarcana.get_name }} 
+    (appears in {{ result_list.object_list|length }} deck{{ result_list.object_list|length|pluralize }})
+    <a href="/diytarot/cards/{{ next_card_index }}">»</a>
+  </h1>
+     
+{% endblock %}
+
+{% block list %}
+
+{% load thumbnail %}
+{% if result_list %}
+	
+	<table class="card_list">
+  {% for card in result_list.object_list %}
+
+	 <tr>
+    <td class="header" colspan="2">
+      <h2><a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+        {{ card.majorarcana.get_name }}{{ card.minorarcana.get_name}}</a>
+       (<a href="/diytarot/decks/{{ card.deck.id }}">{{ card.deck }}</a>)
+      </h2>
+    </td>
+   </tr>
+       
+		<td class="card_image">
+  		<a href="/diytarot/cards/{{ card.tarot_index }}/{{ card.deck.id }}">
+  			<img src="{{ card.image|thumbnail:'85x150' }}"
+  			     width="85" height="150"
+  				 alt="{{ card.majorarcana.get_name }}{{ card.minorarcana.get_name }}"/> 
+  	   </a>
+	   </td>
+	 
+    <td class="card_text">
+	    <h4>{{ card.caption }}</h4>
+	    {{ card.description|safe }}
+	     
+	   <h4>Predictions</h4>
+	   {{ card.get_predictions|join:' ' }}
+	  </td>
+	 </tr>
+	
+    {% endfor %}
+  </table>
+
+{% else %}
+	<h2>There are no cards to show you! Oh dear...</h2>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>{% block title %}diyTarot: card reading your way{% endblock %}</title>
+{% block script %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}diyTarot/css/common.css">
+<link rel="shorcut icon" type="image/ico" href="{{ STATIC_URL }}diyTarot/images/diytarot.ico"/>
+{% block stylesheet %}{% endblock %}
+</head>
+<body>
+{% load random_quote %}
+{% load typogrify %}
+<div id="header">
+  <img src="{{ STATIC_URL }}diyTarot/images/diyTarot_logo.png" width="218" height="101" alt="diyTarot logo" />
+  
+{% block navbar %}
+  <table id="navbar" summary="Table of navigation links">
+    <tr>
+      <td>
+        {% if request.path == '/diytarot/' %}
+          Home
+        {% else %}
+          <a href="/diytarot/">Home</a>
+        {% endif %}
+      </td>
+      <td>
+        {% if request.path == '/diytarot/tarot/' %}
+          What's Tarot?
+        {% else %}
+          <a href="/diytarot/tarot/">What's Tarot?</a>
+        {% endif %}
+      </td>      
+      <td>
+        {% if request.path == '/diytarot/spreads/' %}
+          Readings
+        {% else %}
+          <a href="/diytarot/spreads/">Readings</a>
+        {% endif %}
+      </td>     
+      <td>
+        {% if request.path == '/diytarot/cards/' %}
+          Explore Cards
+        {% else %}
+          <a href="/diytarot/cards/">Explore Cards</a>
+        {% endif %}
+      </td>
+      <td>
+        {% if request.path == '/diytarot/about/' %}
+          About
+        {% else %}
+          <a href="/diytarot/about/">About</a>
+        {% endif %}
+      </td>      
+    </tr>
+  </table>  
+{% endblock %}
+  
+  <div style="clear: both"></div>
+</div>
+<div id="container">
+  
+<div id="sidebar">
+    {% block sidebar_content %}
+    {% filter typogrify %}
+    
+<h1>Ok, what now?</h1>
+<h2>Here's a sitemap</h2>
+<div class="divider"></div>
+  <h3>
+    {% if request.path == '/diytarot/' %}
+      <span class="active_filter">Home</span>
+    {% else %}
+      <a href="/diytarot/">Home</a>
+    {% endif %}
+  </h3>
+  <h3>About Tarot</h3>
+  <ul>
+    <li>
+      {% if request.path == "/diytarot/tarot/" %}
+        <span class="active_filter">What's tarot?</a>
+      {% else %}
+        <a href="/diytarot/tarot/">What's tarot?</a>
+      {% endif %}
+    </li>
+    <li>
+      {% if request.path == "/diytarot/faq/" %}
+        <span class="active_filter">FAQ</a>
+      {% else %}
+        <a href="/diytarot/faq/">FAQ</a>
+      {% endif %}
+    </li>
+  </ul>
+  <h3>Readings</h3>
+  <ul>
+    <li>
+      {% if request.path == "/diytarot/reading/howitworks/" %}
+        <span class="active_filter">How readings work</a>
+      {% else %}
+        <a href="/diytarot/reading/howitworks/">How readings work</a>
+      {% endif %}
+    </li>
+    <li><a href="/diytarot/spreads/">Choose a spread</a></li>  
+    <li><a href="/diytarot/reading/">Presto, reading!</a></li>  
+  </ul>
+  <h3>Explore cards</h3>
+  <ul>
+    <li><a href="/diytarot/cards/random">Random card</a></li>
+    <li><a href="/diytarot/cards/">See all cards at once</a></li>
+    <li>
+      {% if request.path == "/diytarot/decks/" %}
+        <span class="active_filter">See a list of decks</span>
+      {% else %}
+        <a href="/diytarot/decks/">See a list of decks</a>
+      {% endif %}
+    </li> 
+  </ul>
+  <h3>About this site</h3>
+  <ul>
+    <li>
+      {% if request.path == "/diytarot/about/" %}
+        <span class="active_filter">About diyTarot</a>
+      {% else %}
+        <a href="/diytarot/about/">About diyTarot</a>
+      {% endif %}
+    </li>       
+    <li>
+      {% if request.path == "/diytarot/about/features/" %}
+        <span class="active_filter">Features</a>
+      {% else %}
+        <a href="/diytarot/about/features/">Features</a>
+      {% endif %}
+    </li>   
+    <li>
+      {% if request.path == "/diytarot/about/technical/" %}
+        <span class="active_filter">Technical Details</a>
+      {% else %}
+        <a href="/diytarot/about/technical/">Technical Details</a>
+      {% endif %}
+    </li>   
+ </ul>
+    
+    {% endfilter %}    
+    {% endblock %}
+  </div>
+
+  
+  <div id="content">
+
+    <div id="breadcrumbs">    
+    {% block breadcrumbs %}
+      <a href="/diytarot">diyTarot</a>  
+    {% endblock %}
+    </div>
+  
+  {% block content %} {% endblock %}  
+  
+  </div>
+  
+  <div style="clear: both;"></div>
+</div>
+
+<div id="footer">
+  
+  <div id="quote_column">
+    {% autoescape off %}
+    {% filter widont %}
+    {% filter smartypants %}
+    <p class="quote">{{ 'diytarot/files/quotes.txt'|random_quote|join:"</p><p class='quote_author'>&mdash;" }}</p>
+    {% endfilter %}
+    {% endfilter %}
+    {% endautoescape %}
+  </div>
+  
+</div>
+
+</body>
+</html>

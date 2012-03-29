@@ -1,0 +1,89 @@
+/* This is a LESS stylesheet file that holds all the common elements that apply at the top level 
+ * by default. Mostly text stuff. Also holds variables that can be used across all other files for
+ * consistent look and feel and easy theme changing.
+ */
+
+@global-bg-color: #FFF;
+
+@global-width: 960px;
+@sidebar-width: 175px;
+
+@border: 2px dashed black;
+@header-height: 105px;
+
+@space: 10px;
+
+@body-text-color: #444;
+@header-text-color: #000;
+
+/* Top-level tags which apply across the board by default */
+html {
+  background: @global-bg-color;
+}
+
+body {
+  font: 12pt/1.3em Georgia, ff-tisa-web-pro-1, ff-tisa-web-pro-2, serif;
+  color: @body-text-color;
+  margin: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;  
+  
+}
+p + p{
+  text-indent: 1.5em;
+}
+
+dfn {
+  font-weight: bold;
+}
+
+highlight {
+  color: @header-text-color;
+}
+
+a {
+    color: #0090E2;
+    text-decoration: none;
+    &:active, &:hover { 
+      color: #607890;
+      text-decoration: underline;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, ff-tisa-web-pro-1, ff-tisa-web-pro-2, serif;
+  font-weight: normal;
+  line-height: 1.3em;
+  color: @header-text-color;
+  margin: 0;
+}
+
+h1 {
+  font-size: 218%;
+  margin: 2px 0 2px 0;
+}
+
+h2 {
+  font-size: 164%;
+  margin: 2px 0 2px 0;
+}
+
+h3 {
+  font-size: 125%;
+  margin: 1px 0 2px 0;
+}
+
+h4 {
+  font-size: 100%;
+  margin: 1px 0 2px 0;
+}
+
+h5 {
+  font-size: 90%;
+  margin: 1px 0 0 0;
+}

@@ -1,0 +1,66 @@
+{% extends "diyTarot/static.html" %}
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}diyTarot/css/about.css">
+{% endblock %}
+
+{% block title %}It's all about me!{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }} » <a href="/diytarot/about">About</a> » Features
+{% endblock %}
+
+{% block static_content %}
+<h1>Features</h1>
+
+  <p>
+    There is, of course, no substitute for the experience of reading tarot cards with a real deck. 
+    However, there are some significant advantages to a digital approach, and I made an effort to leverage them
+    for diyTarot.    
+  </p>
+
+  <h3>No more shuffling.</h3>
+    <p>Okay, that's kind of a joke. But honestly, if you're serious about getting an unbiased batch of
+       cards there's a lot of shuffling involved and tarot cards are usually more awkward to hold than
+       playing cards.
+    </p
+    >
+  <h3>Tarot anywhere you are.</h3>
+    <p>Sometimes I'll be in places where there isn't enough space to lay out cards, or i'll forget to bring a deck with me.
+      As a by-product I can also work on new decks whenever I have a computer handy.
+    </p>
+  
+  <h3>Easy sharing and logging of readings.</h3>
+  
+   <p>Many tarot experts suggest keeping a record of your readings with notes, so
+    you can refer back to them later and see how everything turned out. With diyTarot I can just
+    paste a link in my blog and instantly refer back. Or if I want to share a reading with a friend
+    (I'm particularly fond of sending them 
+    <a href="/diytarot/reading/4/1/?cards=13.0,58.0,16.1">horrific ones</a>), it's just a click away!
+   </p>
+  
+  <h3>A tool for learning tarot interactively.</h3> 
+  <p>When you're trying to wrap your head around 78 distinct sets of meanings, it can be pretty daunting.
+     And that doesn't even cover reversals! I learned a lot from reading some of the great tarot books
+     and websites out there, but it didn't really start to kick in until I started
+     doing readings every day and designing my own decks.
+  </p>
+  
+  <h3>Create your own decks, and actually use them!</h3>
+  <p>I think every tarot enthusiast eventually thinks about designing their own deck, because the concepts
+    embodied in the cards are quite universal. But most of the time thought is as far as it gets,
+    because even assuming you have the patience and skills to create 78 cards, what would you do afterwards? 
+    There are all kinds of wonderfully creative tarot creations on the internet, but most of them
+    are simply for looking at because it's too much of an undertaking to ever make them into a physical deck.
+    No more! Now I can design any deck I like, develop my own meanings for it (or not) and read with it!
+  </p>
+  
+  <h3>A way to keep track of your personal card meanings.</h3>
+  <p>The really experienced card readers always end up developing their own interpretations and personal
+    spins on what the cards mean. Sure, I could write it down in a book or a text file, but why not
+    put them into an online system where I can easily update them anytime, anywhere?
+  </p>
+
+
+
+{% endblock %}

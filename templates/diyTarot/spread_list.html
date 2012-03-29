@@ -1,0 +1,148 @@
+{% extends "diyTarot/list.html" %}
+
+{% load query_string %}
+{% load typogrify %}
+
+{% block title %}Spread the love{% endblock %}
+
+{% block sidebar_content %}
+<h1>Choose a spread</h1>
+<h2>What's on your mind?</h2>
+<ul>
+  <li>    
+    {% if 'search' not in active_options %}
+    <span class="active_filter">Show all</span>
+    {% else %}
+    <a href="/diytarot/spreads/?{{ active_options|remove_and_reencode:'search,page' }}">Show all</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.search == 'daily' %}
+    <span class="active_filter">Daily life ({{ tag_results.daily }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=daily&{{ active_options|remove_and_reencode:'search,page' }}">
+      Daily life ({{ tag_results.daily }})</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.search == 'traditional' %}
+    <span class="active_filter">Traditional ({{ tag_results.traditional }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=traditional&{{ active_options|remove_and_reencode:'search,page' }}">
+     Traditional ({{ tag_results.traditional }})</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.search == 'love' %}
+    <span class="active_filter">Love life ({{ tag_results.love }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=love&{{ active_options|remove_and_reencode:'search,page' }}">
+      Love life ({{ tag_results.love }})</a>
+    {% endif %}
+  </li> 
+  <li>
+    {% if active_options.search == 'work' %}
+    <span class="active_filter">Work issues ({{ tag_results.work }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=work&{{ active_options|remove_and_reencode:'search,page' }}">
+      Work issues ({{ tag_results.work }})</a>
+    {% endif %}
+  </li> 
+  <li>
+    {% if active_options.search == 'advice' %}
+    <span class="active_filter">General advice ({{ tag_results.advice }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=advice&{{ active_options|remove_and_reencode:'search,page' }}">
+      General advice ({{ tag_results.advice }})</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.search == 'choice' %}
+    <span class="active_filter">Help with decisions ({{ tag_results.choice }})</span>
+    {% else %}
+    <a href="/diytarot/spreads/?search=choice&{{ active_options|remove_and_reencode:'search,page' }}">
+      Decisions ({{ tag_results.choice }})</a>
+    {% endif %}
+  </li>
+</ul>
+<h2>How many cards?</h2>
+<ul>
+  <li>
+    {% if 'size' not in active_options %}
+    <span class="active_filter">Show all</span>
+    {% else %}
+    <a href="/diytarot/spreads/?{{ active_options|remove_and_reencode:'size,page' }}">Show all</a>
+    {% endif %}
+ </li>
+  <li>
+    {% if active_options.size == 'small' %}
+    <span class="active_filter">3 or less</span>
+    {% else %}
+    <a href="/diytarot/spreads/?size=small&{{ active_options|remove_and_reencode:'size,page' }}">3 or less</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.size == 'medium' %}
+    <span class="active_filter">4 to 7</span>
+    {% else %}
+    <a href="/diytarot/spreads/?size=medium&{{ active_options|remove_and_reencode:'size,page' }}">4 to 7</a>
+    {% endif %}
+  </li>
+  <li>
+    {% if active_options.size == 'large' %}
+    <span class="active_filter">8 or more</span>
+    {% else %}
+    <a href="/diytarot/spreads/?size=large&{{ active_options|remove_and_reencode:'size,page' }}">8 or more</a>
+    {% endif %}
+    </li>
+</ul> 
+{% endblock %}
+
+{% block breadcrumbs %}
+
+{{ block.super }} » Spreads
+
+{% endblock %}
+
+
+{% block list_title %}
+<h1>Let's throw some cards! CHOOSE WISELY</h1>
+  <p>
+    The different ways to lay out the cards for reading are known as "spreads," and
+    drawing out the cards individually and placing them is called "throwing."
+    To throw your very own reading virtually, just pick out a spread to your liking from the list below and
+    click on the title. Confused? Check out <a href="/diytarot/reading/howitworks">How Readings Work</a>.
+  </p>
+{% endblock %}
+
+{% block list %}
+{% if result_list %}
+	
+	{% regroup result_list.object_list by size as spread_list %} 
+	
+	{% for size_group in spread_list %}
+    <h2>{{ size_group.grouper }}-card readings</h2>
+    <ul>  
+       {% for spread in size_group.list %}
+       <li>
+          <h3><a href="/diytarot/reading/{{ spread.id }}/{{ deck }}/">the {{ spread.title }} Spread</a></h3>
+          <p>{{ spread.description }} 
+            {% if spread.source and spread.source != "" %} 
+              (Source:  <a href="{{ spread.source }}">{{ spread.author}}</a>)
+            {% else %}
+              (Source: {{ spread.author }})
+            {% endif %}
+         </p>
+       </li>
+       {% endfor %}
+    </ul>
+    
+    <div class="divider"></div>
+
+   {% endfor %}
+
+{% else %}
+    <p>Oh no, there are no spreads to show you!</p>
+{% endif %}
+
+{% endblock %}

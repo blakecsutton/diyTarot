@@ -1,0 +1,53 @@
+/* This is a LESS stylesheet for the reading page, which contains a lot of specialized layout
+ * and styling since it is a combination of dynamic and static content.
+ */
+
+/* This is the div which holds the card images laid out according to the spread. 
+ * The width and height are calculated on the back end based on the coordinates in
+ * the spread and the dimensions of the card images, then passed in to the template by django
+ * and set as an inline style in the template code. */
+div#reading_layout {
+  
+  /* Position is relative here so that the child div's will be positioned relative to this one.
+   * So the children are positioned absolutely, but with the origin set to the location of this div,
+   *  the parent. */
+  position: relative;
+  margin: @space auto @space auto;
+
+  /* This is the div class for cards in a spread. Position is absolute relative to its container div,
+   * and each of these div's has its location set as an inline style in the template code, using 
+   * adjusted coordinates passed in from the back end (base on the spread coordinates). */ 
+  div.thrown_card {
+    position: absolute;
+    text-align: center;
+    margin: 15px 0 0 15px;
+    
+    span.card_caption { display: block; }
+  }
+}
+
+p.error {
+  color: #a70202;
+}
+
+/* Styling for the list of cards with meanings displayed under the throw */
+table.reading_detail {
+  width: 100%;
+  margin: auto;
+  
+  td.header { 
+    padding: @space @space 0 0;
+  }
+  
+  td.card_text {
+    vertical-align: top;
+    padding: 0 0 5px 0;
+  }
+  
+  td.card_image {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 5px 0 @space;
+  }
+}
+

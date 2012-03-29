@@ -1,0 +1,37 @@
+{% extends "diyTarot/static.html" %}
+{% block title %}I came to tarot, tarot, tarot, tarot, tarot...{% endblock %}
+
+{% block breadcrumbs %}diyTarot Home{% endblock %}
+
+{% block static_content %}
+
+<h1>The future is yours!</h1>
+
+<p>Welcome to diyTarot, your virtual gateway to the capricious fancies 
+  of destiny! Let us become one
+  with the boiling soup of fate and inhale the savory vapors of prophecy together. Tarot cards are the key, my friend,
+  the key--to your future!
+</p>
+<p class="image">
+    <img src="{{ STATIC_URL }}/diyTarot/images/yourdoomed.png" width="100" height="120"
+    alt="The fortuneteller winces"
+   title="Haha, you're doomed!">
+    Well that can't be good.
+</p>
+<p>All you have to do is open your mind to the possibilities, and the secrets 
+  of the universe, your soul, and even what your crush is thinking will unfold. Just don't get too upset if
+  the truth is not always exactly what you want to hear...
+</p>
+  
+<h2>Your future, fool! Do you know it?</h2>
+<p>If you're unfamiliar with Tarot cards, you may want to check out <a href="/diytarot/tarot">What is Tarot</a>,
+  the <a href="/diytarot/faq/">FAQ</a>, and <a href="/diytarot/reading/howitworks/">How Readings Work</a>
+  to get a feel for some Tarot terms and concepts.
+</p>
+<p>Of course, you can also just jump right to the <a href="/diytarot/spreads/">Spreads page</a> to pick out a 
+  spread and get a reading immediately. Or maybe you're not so interested in the future but prefer to 
+  just explore the cards <a href="/diytarot/cards/">all at once</a>, <a href="/diytarot/decks/">by deck</a>,
+  or <a href="/diytarot/cards/0">one at time to see how they look in different decks</a>.
+</p>
+
+{% endblock %}

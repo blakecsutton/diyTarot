@@ -1,0 +1,81 @@
+{% extends "diyTarot/static.html" %}
+
+{% block title %}It's all about diyTarot{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }} » <a href="/diytarot/about">About</a> » Overview
+{% endblock %}
+
+{% block static_content %}
+<h1>What the spork is a diyTarot?</h1>
+
+<p>
+    This project was born when I thought of combining my love of tarot cards with
+    my interest in learning Python and web programming. The "diy" (which stands for Do It Yourself) is there
+    because it's exactly that aspect of tarot which fascinates me: the idea of designing your own decks,
+    individual card definitions, and readings. 
+ </p>
+ <p class="image">
+   <img src="{{ STATIC_URL }}diyTarot/images/spork.png" width="100" height="138" alt="A spork."
+   title="Sporking spork of a spork!">
+  What the spork?!
+ </p>
+ <p>
+To that end, this project is focused around dynamic content: <a href="/diytarot/decks/">multiple tarot decks</a>,
+sets of meanings, and card layouts are a key part of the design, and so is the ability to easily modify them later. 
+The central idea is that this is a <em>customized</em> version of the tarot:
+one's own particular ideas about meanings, reversals, names of suits, and the kinds of images 
+which best sum up each card.
+</p>
+
+<h2>The head, the tail, the whole sporking thing</h2>
+<p>Want to add tarot readings to your own site, featuring your own design sensibilities? Interested in putting 
+   your own decks or spreads up on the web for readings? Maybe you like some features  but others drive you
+   up the wall and you'd really prefer to customize? Tired of me ending every sentence with a question mark?
+</p>
+<p>
+   I'm working on
+   streamlining and documenting diyTarot to turn it into an application you can deploy on your own
+   website. Check out 
+   <a href="/diytarot/about/technical/">Technical Details</a> for the, well, technical details.
+</p>
+  
+ <h2>Where did all the content come from?</h2>
+ 
+ <p>
+ Me, of course! Haha, that's not entirely true. The images for the classic Rider-Waite deck are so old
+ they're public domain at this point. I wrote the descriptions and meanings for all the cards
+ in my own words, but they are a synthesis of all of the booklets, books, and websites on tarot I've
+ read over the years. Whenever I had the choice I favored variety over consistency, which is why
+ some of the cards have one or two where-did-<em>that</em>-come-from predictions.
+ </p>
+ <p>As far as spreads go, some were made up by me (you can probably guess which ones), but the others are
+   spreads I've seen variations of in a bunch of different places, and some I can't even remember where
+   they came from! (To be honest, memorizing 78 card meanings tends to crowd everything else out.)
+ </p>  
+
+ <h2>The woman behind the curtain</h2>
+ 
+ <p>Pay no attention to me! I'm just a programmer in the Valley (by which I mean Silicon, 
+   not San Fernando, of course). My background is in programming,
+ but I like to dabble in other fields like usability, graphic design, and drawing stuff.
+ I also have <a href="/kingdom/">a website</a>, of course.
+ </p>
+  <p class="image">
+   <img src="{{ STATIC_URL }}diyTarot/images/pony.jpg" width="120" height="143"
+  alt="the Wizard of Extreme diyTarot Ponylandia"
+  title="Pay no attention to the pony behind the curtain">
+   Portrait of the authoress
+ </p>
+ <p>
+My first tarot deck was made with colored pencils on plain paper&mdash;it was for 
+<a href="http://en.wikipedia.org/wiki/Mole_Day">Mole Day</a> in Chemistry 
+class and featured pictures of moles instead of people. My favorite deck of all time
+is <a href="http://www.aeclectic.net/tarot/cards/fantod/">the Fantod Pack</a> by Edward Gorey,
+  which is not a real tarot deck but consists of 20 cards that universally predict doom.
+ </p>  
+ <p>
+  In addition to tarot, I am fond of ponies, poodles,
+  poetry, and making jokes about all of the above. And cake! Who doesn't like cake, right?
+ </p>
+{% endblock %}

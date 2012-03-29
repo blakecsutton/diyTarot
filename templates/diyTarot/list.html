@@ -1,0 +1,37 @@
+{% extends "diyTarot/base.html" %}
+{% load query_string %}
+
+{% block content %}
+
+{% block list_title %}{% endblock %}
+<span class="result_description">Showing {{ result_list.start_index }} - {{ result_list.end_index }} 
+  of {{ result_list.paginator.count }} Result{{ result_list.paginator.count|pluralize:'s' }} 
+</span>
+
+{% block list %}{% endblock %}
+
+<div class="page_navigation">
+{% if result_list.has_previous %}
+  <a href="?{{ active_options|remove_and_reencode:'page' }}&page={{ result_list.previous_page_number }}">« Previous</a>
+{% else %}
+  « Previous
+{% endif %}
+
+| <strong>Page:</strong> 
+  {% for page in result_list.paginator.page_range %}
+      {% if page == result_list.number %}
+        <strong>{{ page }}</strong>
+      {% else %}
+        <a href="?{{ active_options|remove_and_reencode:'page' }}&page={{ page }}">{{ page }}</a>
+      {% endif %}
+      &nbsp;
+  {% endfor %}
+
+{% if result_list.has_next %}
+  | <a href="?{{ active_options|remove_and_reencode:'page' }}&page={{ result_list.next_page_number }}">Next »</a>
+{% else %}
+  | Next »
+{% endif %}
+</div>
+
+{% endblock %}

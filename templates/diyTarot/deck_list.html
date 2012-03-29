@@ -1,0 +1,42 @@
+{% extends "diyTarot/list.html" %}
+{% block title %}Every day I'm deckin' it{% endblock %}
+
+{% block breadcrumbs %}
+  {{ block.super }} » Decks
+{% endblock %}
+
+{% block list_title %}
+<h1>List ALL the decks!</h1>
+{% endblock %}
+
+{% block list %}
+
+<table>
+    <tr>
+      <td width="15%"><h3>Deck Name</h3></td>
+      <td><h3>Description</h3></td>
+   </td>
+{% if result_list %}
+	
+     {% for deck, suits in result_list.object_list %}
+      
+      <tr>
+        <td style="text-align: center;">
+        <a href="/diytarot/decks/{{ deck.id }}/">{{ deck.name }}</a>
+        </td>
+        <td style="vertical-align: top;">
+        {{ deck.description|safe }} 
+        <h5>{{ deck.author }}</h5>
+        <h5>Suits: {{ suits|join:', ' }}</h5>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4"><div class="divider"></div></td>
+      </tr>
+      
+    {% endfor %}
+</table>
+{% else %}
+    <h1>Oh no, there are no decks to show you!</h1>
+{% endif %}
+{% endblock %}

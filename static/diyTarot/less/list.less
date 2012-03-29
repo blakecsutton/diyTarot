@@ -1,0 +1,79 @@
+/* This is a LESS stylesheet that holds all formatting and layout needed for list-style pages.
+ * Very short right, because work needs to be done to pull together the disparate list-style pages to
+ * make the markup and styling coherent.
+ */
+
+/* Styling for currently active filters and options, to visually show that they
+ * are active. Also applies to menu options? */
+span.active_filter {
+  font-weight: 700;
+}
+
+/* Span for the result summary at the top of list pages: "Showing 1-3 of 3 results" */
+span.result_description {
+  padding: @space 0 0 0;
+  display: block;
+  color: @header-text-color;
+}
+
+/* Page navigation div that appears at the bottom of list pages and holds the page links. */
+div.page_navigation {
+  margin: auto;
+  padding: @space 0 0 0;
+  text-align: center;
+}
+
+form#card-search {
+  input#search { width: 80%; }
+  input#submit {
+    height: 20px;
+    width: 20% - 6px;
+    border: 1px solid #757575;
+    padding: 1px;
+    margin: 0;
+    color: #91268e;
+    background-color: #F2f2f2;
+  }
+}
+
+/* Layout for the pages which feature a list of cards, with a 
+ * thumbnail picture and some information about each one.
+ */
+
+span.search-highlight {
+  background-color: #9FF;
+}
+
+table.card_list {
+  
+  padding: @space 0 0 0;
+  margin: 0;
+  
+  td.header {
+    padding: @space 0 0 0;
+    border-top: 1px dotted black;
+  }
+  
+  td.card_image {
+    padding: 0 @space @space @space;
+    text-align: center;
+    vertical-align: baseline;
+  }
+  
+  td.card_text {
+    padding: 0 0 @space 0;
+    vertical-align: top;
+  }
+
+  a.detail_link {
+    display: block;
+    padding: @space 0 0 0;
+  }
+  
+}
+
+
+
+
+
+
